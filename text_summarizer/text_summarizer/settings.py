@@ -75,11 +75,10 @@ WSGI_APPLICATION = 'text_summarizer.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
+import dj_database_url
+
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
+    'default': dj_database_url.config(default='postgresql://text_summarizer_user:LwHvN7ov7K6MUd7M2EpVQvK697XdUIjO@dpg-cu8j1njv2p9s73ccmggg-a.oregon-postgres.render.com/text_summarizer_db')
 }
 
 
