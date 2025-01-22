@@ -75,10 +75,21 @@ WSGI_APPLICATION = 'text_summarizer.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
-import dj_database_url
+import os
+from urllib.parse import urlparse
+
+DATABASE_URL = os.getenv('DATABASE_URL') 
+db_info = urlparse(DATABASE_URL)
 
 DATABASES = {
-    'default': dj_database_url.config(default='postgresql://text_summarizer_user:LwHvN7ov7K6MUd7M2EpVQvK697XdUIjO@dpg-cu8j1njv2p9s73ccmggg-a.oregon-postgres.render.com/text_summarizer_db')
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': db_info.path[1:],  # Removes leading slash from DB name
+        'USER': db_info.username,
+        'PASSWORD': db_info.password,
+        'HOST': db_info.hostname,
+        'PORT': db_info.port,
+    }
 }
 
 
