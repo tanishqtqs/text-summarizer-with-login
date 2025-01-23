@@ -7,4 +7,4 @@ class PingView(APIView):
     permission_classes = [AllowAny]
 
     def get(self, request):
-        return Response({"message": "User app is working!"}, status=200)
+        return Response({"message": "Blog app is working!"}, status=200)
