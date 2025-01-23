@@ -1,8 +1,6 @@
 from django.urls import path
-from . import views
+from .views import PingView
 
 urlpatterns = [
-    # path('create/', views.create_blog, name='create_blog'),
-    # path('list/', views.list_blogs, name='list_blogs'),
-    path('ping/', views.ping, name='ping'),
+    path('ping/', PingView.as_view(), name='ping'),
 ]
