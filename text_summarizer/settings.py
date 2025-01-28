@@ -83,7 +83,7 @@ DATABASES = {
     'default': dj_database_url.parse('postgresql://text-summarizer-db_owner:npg_Q6xyDPOMszq7@ep-autumn-grass-a5smy3uw.us-east-2.aws.neon.tech/text-summarizer-db?sslmode=require', conn_max_age=600)
 }
 
-
+AUTH_USER_MODEL = 'user.CustomUser'
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators

@@ -2,8 +2,11 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.permissions import AllowAny
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 from rest_framework_simplejwt.tokens import RefreshToken
+
+# Get the custom user model
+User = get_user_model()
 
 class PingView(APIView):
     permission_classes = [AllowAny]
@@ -17,14 +20,36 @@ class RegisterView(APIView):
     def post(self, request):
         username = request.data.get('username')
         password = request.data.get('password')
+        email = request.data.get('email')
+        age = request.data.get('age')
+        gender = request.data.get('gender')
 
-        if not username or not password:
-            return Response({"error": "Username and password are required."}, status=status.HTTP_400_BAD_REQUEST)
+        # Validate input
+        if not username or not password or not email:
+            return Response(
+                {"error": "Username, password, and email are required."}, 
+                status=status.HTTP_400_BAD_REQUEST
+            )
 
         if User.objects.filter(username=username).exists():
-            return Response({"error": "User already exists."}, status=status.HTTP_400_BAD_REQUEST)
+            return Response(
+                {"error": "Username already exists."}, 
+                status=status.HTTP_400_BAD_REQUEST
+            )
 
-        user = User.objects.create_user(username=username, password=password)
+        if User.objects.filter(email=email).exists():
+            return Response(
+                {"error": "Email already registered."}, 
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+        # Create the user
+        user = User.objects.create_user(username=username, password=password, email=email)
+        user.age = age
+        user.gender = gender
+        user.save()
+
+        # Generate JWT tokens
         refresh = RefreshToken.for_user(user)
 
         return Response({

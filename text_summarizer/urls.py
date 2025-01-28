@@ -17,6 +17,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 
+# railway_endpoint = 'text-summarizer-with-login-production.up.railway.app'
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/blog/', include('blog.urls')),  # Add URL patterns for blog app
