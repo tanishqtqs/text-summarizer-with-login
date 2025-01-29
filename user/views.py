@@ -21,6 +21,8 @@ class RegisterView(APIView):
         username = request.data.get('username')
         password = request.data.get('password')
         email = request.data.get('email')
+        first_name = request.data.get('first_name')
+        last_name = request.data.get('last_name')
         age = request.data.get('age')
         gender = request.data.get('gender')
 
@@ -44,7 +46,13 @@ class RegisterView(APIView):
             )
 
         # Create the user
-        user = User.objects.create_user(username=username, password=password, email=email)
+        user = User.objects.create_user(
+            username=username, 
+            password=password, 
+            email=email, 
+            first_name=first_name, 
+            last_name=last_name
+        )
         user.age = age
         user.gender = gender
         user.save()
