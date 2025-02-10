@@ -3,7 +3,7 @@ from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.views import APIView
 from rest_framework import status
 from .models import Blog
-from aiml.summarizer import summarize_text  # Import summarization logic
+from aiml.summarizer import summarize_text
 
 class PingView(APIView):
     permission_classes = [AllowAny]
