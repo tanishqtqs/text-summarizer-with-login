@@ -1,7 +1,11 @@
 from transformers import pipeline
+import torch
 
-# Initialize the Hugging Face summarization model
-summarizer = pipeline("summarization")
+# Check if CUDA is available
+device = 0 if torch.cuda.is_available() else -1
+
+# Initialize the Hugging Face summarization pipeline
+summarizer = pipeline("summarization", model="facebook/bart-large-cnn", device=device)
 
 def summarize_text(text: str) -> str:
     """
