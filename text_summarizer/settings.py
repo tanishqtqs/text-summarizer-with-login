@@ -171,3 +171,4 @@ SOCIALACCOUNT_PROVIDERS['google']['APP'] = {
     'key': '',
 }
 SOCIALACCOUNT_ADAPTER = "user.adapters.CustomSocialAccountAdapter"
+LOGIN_REDIRECT_URL = '/api/user/ping/'
