@@ -3,6 +3,7 @@ from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.views import APIView
 from rest_framework import status
 from .models import Blog
+from .serializers import BlogSerializer
 from aiml.summarizer import summarize_text
 
 class PingView(APIView):
@@ -34,3 +35,17 @@ class CreateBlogView(APIView):
             "summarized_content": summarized_content,
             "blog_id": blog.id
         }, status=status.HTTP_201_CREATED)
+
+
+class UserBlogsView(APIView):
+    permission_classes = [IsAuthenticated]  # Only authenticated users can access their blogs
+
+    def get(self, request):
+        user_blogs = Blog.objects.filter(user=request.user)
+        
+        if not user_blogs.exists():
+            return Response({"message": "No blogs found for this user."}, status=status.HTTP_404_NOT_FOUND)
+
+        serializer = BlogSerializer(user_blogs, many=True)
+
+        return Response(serializer.data, status=status.HTTP_200_OK)
